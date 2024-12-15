@@ -11,6 +11,9 @@ import ExpenseListTable from "./expenses/_components/ExpenseListTable";
 function Dashboard() {
   const [budgetList, setBudgetList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
+  const [incomeList, setIncomeList] = useState([]);
+ 
+  
   const { user } = useUser();
   useEffect(() => {
     user && getBudgetList();
@@ -31,6 +34,7 @@ function Dashboard() {
 
     setBudgetList(result);
     getAllExpenses();
+    getIncomeList();
   };
 
   const getAllExpenses = async () => {
@@ -47,6 +51,24 @@ function Dashboard() {
       .orderBy(desc(expenses.id));
     setExpensesList(result);
   };
+
+  const getIncomeList = async () => {
+    try {
+      const result = await db
+        .select({
+          ...getTableColumns(Incomes),
+          totalAmount: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(
+            Number
+          ),
+        })
+        .from(Incomes)
+        .groupBy(Incomes.id); // Assuming you want to group by ID or any other relevant column
+
+      setIncomeList(result);
+    } catch (error) {
+      console.error("Error fetching income list:", error);
+    }
+  };
   return (
     <div className="p-8">
       <h2 className="font-bold text-3xl">Hi, {user?.fullName} 👋</h2>
@@ -54,7 +76,7 @@ function Dashboard() {
         Here's what happening with your money, Let's manage your expense
       </p>
 
-      <CardInfo budgetList={budgetList} />
+      <CardInfo budgetList={budgetList} incomeList={incomeList} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6 gap-5">
         <div className="md:col-span-2">
@@ -67,9 +89,13 @@ function Dashboard() {
         </div>
         <div className="">
           <h2 className="font-bold text-lg">Latest Budgets</h2>
-          {budgetList.map((budget, index) => (
+          {budgetList.length >0 ? budgetList.map((budget, index) => (
             <BudgetItem budget={budget} key={index} />
-          ))}
+          )):[1,2,3,4].map((items, index)=>(
+            <div  className="h-[180px] w-full bg-slate-200 lg animate-pulse">
+
+            </div>
+          ) )}
         </div>
       </div>
     </div>

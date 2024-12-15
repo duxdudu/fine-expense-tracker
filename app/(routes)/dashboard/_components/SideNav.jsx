@@ -188,12 +188,12 @@ function SideNav({ isSideNavOpen, onClose }) {
       icon: ReceiptText,
       path: "/dashboard/expenses",
     },
-    // {
-    //   id: 4,
-    //   name: "Incomes",
-    //   icon: CircleDollarSign,
-    //   path: "/dashboard/incomes",
-    // },
+    {
+      id: 4,
+      name: "Incomes",
+      icon: CircleDollarSign,
+      path: "/dashboard/incomes",
+    },
   ];
 
   const path = usePathname();
@@ -239,7 +239,10 @@ function SideNav({ isSideNavOpen, onClose }) {
           </defs>
         </svg> */}
 
-        <button className="md:hidden p-2 bg-blue-500 rounded-" onClick={onClose}>
+        <button
+          className="md:hidden p-2 bg-blue-500 rounded-"
+          onClick={onClose}
+        >
           <X />
         </button>
       </div>
@@ -262,9 +265,15 @@ function SideNav({ isSideNavOpen, onClose }) {
       <div className="fixed bottom-10 p-5 flex gap-2 items-center">
         <UserButton />
         Profile
-        
       </div>
-      <p className=" fixed bottom-5 ">Powed by <Link  className="  "  href="https://iduxcodes.netlify.app/" ><span className=" text-blue-800 hover:bg-blue-800 hover:text-white p-2">_codeWithDux_</span></Link></p>
+      <p className=" fixed bottom-5 ">
+        Powed by{" "}
+        <Link className="  " href="https://iduxcodes.netlify.app/">
+          <span className=" text-blue-800 hover:bg-blue-800 hover:text-white p-2">
+            _codeWithDux_
+          </span>
+        </Link>
+      </p>
     </div>
   );
 }
