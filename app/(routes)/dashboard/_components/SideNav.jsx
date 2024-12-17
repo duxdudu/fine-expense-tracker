@@ -267,7 +267,7 @@ function SideNav({ isSideNavOpen, onClose }) {
         Profile
       </div>
       <p className=" fixed bottom-5 ">
-        Powed by{" "}
+        Powered by{" "}
         <Link className="  " href="https://iduxcodes.netlify.app/">
           <span className=" text-blue-800 hover:bg-blue-800 hover:text-white p-2">
             _codeWithDux_

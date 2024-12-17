@@ -41,7 +41,7 @@ function Header() {
   }, [isSignedIn, router]);
 
   return (
-    <div className=" flex justify-between items-center border shadow-sm">
+    <div className=" flex justify-between items-center border shadow-sm ml-3">
       <Image src={"/logopocket.png"} alt="logo" width={100} height={60} />
       {isSignedIn ? (
         <UserButton />
