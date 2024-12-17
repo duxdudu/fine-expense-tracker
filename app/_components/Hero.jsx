@@ -1,8 +1,12 @@
-import React from "react";
-import Image from "next/image";
-import { ContainerScroll } from "../../components/ui/container-scroll-animation";
+// pages/sign-in/[[...sign-in]].js
 
-function Hero() {
+import React from 'react';
+import Image from 'next/image';
+import { ContainerScroll } from '../../components/ui/container-scroll-animation';
+
+function SignInPage() {
+  // Your sign-in page component logic here
+
   return (
     <section className="bg-slate-100 flex items-center flex-col">
       <div className="flex flex-col overflow-hidden">
@@ -40,4 +44,11 @@ function Hero() {
   );
 }
 
-export default Hero;
+export async function generateStaticParams() {
+  // Fetch or generate the dynamic route parameters
+  // For example, if you have a list of users, you can return an array of objects with the user IDs
+  const users = await fetchUsers(); // Replace this with your actual data fetching logic
+  return users.map((user) => ({ signIn: user.id }));
+}
+
+export default SignInPage;
