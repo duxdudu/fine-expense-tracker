@@ -270,7 +270,7 @@ function SideNav({ isSideNavOpen, onClose }) {
         Powered by{" "}
         <Link className="  " href="https://iduxcodes.netlify.app/">
           <span className=" text-blue-800 hover:bg-blue-800 hover:text-white p-2">
-            _codeWithDux_
+            Fine Expart
           </span>
         </Link>
       </p>
