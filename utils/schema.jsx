@@ -28,3 +28,10 @@ export const Incomes = pgTable("incomes", {
   icon: varchar("icon"),
   createdBy: varchar("createdBy").notNull(),
 });
+export const IncomesItems = pgTable("incomesItems", {
+  id:serial("id").primaryKey(),
+  name:varchar("name").notNull(),
+  amount: varchar("amount").notNull(),
+  incomeId: integer("incomeId").references(() => Incomes.id),
+  createdAt: varchar("createdAt").notNull(),
+})

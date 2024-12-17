@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import CardInfo from "../dashboard/_components/CardInfo";
 import BarChartDashboard from "./_components/BarChartDashboard";
 import { db } from "../../../utils/dbConfig";
-import { Budgets, expenses } from "../../../utils/schema";
+import { Budgets, expenses ,Incomes} from "../../../utils/schema";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
 import BudgetItem from "./budgets/_components/BudgetItem";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
@@ -12,12 +12,15 @@ function Dashboard() {
   const [budgetList, setBudgetList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
   const [incomeList, setIncomeList] = useState([]);
- 
-  
+
   const { user } = useUser();
   useEffect(() => {
-    user && getBudgetList();
-  }, [user]);
+    if (user?.primaryEmailAddress?.emailAddress) {
+      getBudgetList();
+      getAllExpenses();
+      getIncomeList();
+    }
+  }, [user?.primaryEmailAddress?.emailAddress]);
 
   const getBudgetList = async () => {
     const result = await db
@@ -33,7 +36,7 @@ function Dashboard() {
       .orderBy(desc(Budgets.id));
 
     setBudgetList(result);
-    getAllExpenses();
+
     getIncomeList();
   };
 
@@ -56,17 +59,15 @@ function Dashboard() {
     try {
       const result = await db
         .select({
-          ...getTableColumns(Incomes),
-          totalAmount: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(
-            Number
-          ),
+          totalIncome: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(Number),
         })
         .from(Incomes)
-        .groupBy(Incomes.id); // Assuming you want to group by ID or any other relevant column
-
-      setIncomeList(result);
+        .where(eq(Incomes.createdBy, user.primaryEmailAddress.emailAddress));
+  
+      setIncomeList(result[0]?.totalIncome || 0);
     } catch (error) {
       console.error("Error fetching income list:", error);
+      setIncomeList(0);
     }
   };
   return (
@@ -76,7 +77,7 @@ function Dashboard() {
         Here's what happening with your money, Let's manage your expense
       </p>
 
-      <CardInfo budgetList={budgetList} incomeList={incomeList} />
+      <CardInfo budgetList={budgetList} income={incomeList} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6 gap-5">
         <div className="md:col-span-2">
@@ -89,13 +90,13 @@ function Dashboard() {
         </div>
         <div className="">
           <h2 className="font-bold text-lg">Latest Budgets</h2>
-          {budgetList.length >0 ? budgetList.map((budget, index) => (
-            <BudgetItem budget={budget} key={index} />
-          )):[1,2,3,4].map((items, index)=>(
-            <div  className="h-[180px] w-full bg-slate-200 lg animate-pulse">
-
-            </div>
-          ) )}
+          {budgetList.length > 0
+            ? budgetList.map((budget, index) => (
+                <BudgetItem budget={budget} key={index} />
+              ))
+            : [1, 2, 3, 4].map((items, index) => (
+                <div className="h-[180px] w-full bg-slate-200 lg animate-pulse"></div>
+              ))}
         </div>
       </div>
     </div>

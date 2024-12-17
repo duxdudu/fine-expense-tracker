@@ -1,37 +1,41 @@
 import React from "react";
 import Image from "next/image";
+import { ContainerScroll } from "../../components/ui/container-scroll-animation";
+
 function Hero() {
   return (
-    <section className="bg-gray-900 text-white flex items-center flex-col">
-      <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
-            Manage Your Expenses
-            <span className="sm:block"> Control your Money </span>
-          </h1>
-
-          <p className="mx-auto mt-4 max-w-xl sm:text-xl/relaxed">
-            Start creating your budget and save ton of money
-          </p>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              className="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
-              href="/sign-in"
-            >
-              Get Started
-            </a>
-          </div>
-        </div>
+    <section className="bg-gray-50 flex items-center flex-col">
+      <div className="flex flex-col overflow-hidden">
+        <ContainerScroll
+          titleComponent={
+            <div className=" mb-9">
+              <h1 className="text-4xl font-semibold text-black dark:text-white">
+              Start creating your budget and save ton of money <br />
+                <span className="text-4xl md:text-[6rem] text-blue-800 font-bold mt-1 leading-none">
+                  Manage Your Expenses
+                </span>
+              </h1>
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <a
+                  className="block w-full rounded border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto"
+                  href="/sign-in"
+                >
+                  Get Started
+                </a>
+              </div>
+            </div>
+          }
+        >
+          <Image
+            src={`/image.png`}
+            alt="hero"
+            height={720}
+            width={1400}
+            className="mx-auto rounded-2xl object-cover h-full object-left-top"
+            draggable={false}
+          />
+        </ContainerScroll>
       </div>
-      <Image
-        src={"/image.png"}
-        alt="dashboard placeholder"
-        width={1000}
-        height={700}
-        className="-mt-[10%] rounded-xl border-2 mg-10"
-      />
-      <div className="h-9"></div>
     </section>
   );
 }
