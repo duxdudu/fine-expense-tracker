@@ -7,6 +7,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "dev": "next dev",
+    "prebuild": "npx update-browserslist-db@latest",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
