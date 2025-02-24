@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { ContainerScroll } from '../../components/ui/container-scroll-animation';
 
-function SignInPage() {
+function  SignInPage() {
   // Your sign-in page component logic here
 
   return (
